@@ -1,21 +1,13 @@
-const express = require("express")
-const mongoose = require("mongoose")
+require("dotenv").config();
+require("./database/connect");
 
-const app = express()
-const PORT = process.env.PORN || 3000
+const express = require("express");
 
-app.use(express.json())
+const app = express();
+const PORT = process.env.PORT ?? 3000;
 
-async function start(){
-    try
-    {
-  
-    }
-    catch(e)
-    {
-        console.log(e)
-    }    
-}
-app.listen(PORT, ()=> {
+app.use(express.json());
+
+app.listen(PORT, () => {
     console.log(`SERVER STARTED ON :${PORT}`)
-})
+});
