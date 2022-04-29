@@ -1,8 +1,9 @@
 const { references } = require("./index");
 const { DataTypes } = require("sequelize");
 
+
 module.exports = global.database.define(
-    references.days,
+    references.data,
     {
         id: {
             type: DataTypes.INTEGER,
@@ -10,17 +11,20 @@ module.exports = global.database.define(
             allowNull: false,
             primaryKey: true
         },
-
-        monthId: {
-            type: DataTypes.INTEGER,
-            references: references.months,
-            referencesKey: "id"
-        },
-      
-        name: {
+        month:{
             type: DataTypes.STRING,
             trim: true,
             allowNull: false
         },
+        day:{
+            type: DataTypes.STRING,
+            trim: true,
+            allowNull: false  
+        },
+        year:{
+            type: DataTypes.STRING,
+            trim: true,
+            allowNull: false
+        }
     }
 );

@@ -24,7 +24,6 @@ database.authenticate()
     require("../models");
 })
 .catch(e => {
-    console.log(e);
 });
 
 global.database = database;
