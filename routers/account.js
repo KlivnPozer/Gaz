@@ -3,7 +3,7 @@ const router = Router();
 const validator = require("../utils/validator");
 const AccountController = require("../controllers/account");
 
-router.post(
+router.get(
     "/login",
     [
         validator.email,

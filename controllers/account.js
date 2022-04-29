@@ -1,6 +1,6 @@
 const AccountModel = require("../models/account")
 class Account{
-async login (req, res) {
+async login (req, res){
         const {
             email,
             password
@@ -9,10 +9,6 @@ async login (req, res) {
         let foundAccount;
         if (!(foundAccount = await AccountModel.findOne({email}))) {
             return res.status("404").json({message: "Аккаунт не найден"}).end();
-        }
-
-        if (!bcrypt.compareSync(password, foundAccount.passwordHash)) {
-            return res.status("400").json({message: "Неверный пароль"}).end();
         }
         return res.status("200")
     }
