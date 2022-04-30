@@ -1,8 +1,8 @@
 module.exports = {
     references: {
         accounts: "accounts",
-        data:"data",
-        event:"event",
+        date: "date",
+        event: "event",
         eventMembers: "eventMembers"
     }
 }

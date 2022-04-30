@@ -14,6 +14,11 @@ module.exports = global.database.define(
             type: DataTypes.STRING,
             trim: true,
             allowNull: false
+        },
+        eventId: {
+            type: DataTypes.INTEGER,
+            references: references.event,
+            allowNull: false
         }
     }
 );

@@ -9,10 +9,10 @@ async create(req,res){
 
         let foundData;
         let crearedData;
-        if(foundData = await DataModel.findOne({day:day,year:year,month:month})){
+        if(foundData = await DataModel.findOne({day, year, month})){
             return res.status("404").json({message: "Дата уже создана"}).end();
         }
-        if(!(crearedData = this.DataModel.create(day,year,month))){
+        if(!(crearedData = this.DataModel.create({day, year, month}))){
             return res.status("404").json({massage:"Ошибка создания даты"})
         }
         return res.status("200")

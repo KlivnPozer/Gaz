@@ -3,7 +3,7 @@ const { DataTypes } = require("sequelize");
 
 
 module.exports = global.database.define(
-    references.data,
+    references.date,
     {
         id: {
             type: DataTypes.INTEGER,
