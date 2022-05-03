@@ -5,19 +5,28 @@ const { DataTypes } = require("sequelize");
 module.exports = global.database.define(
     references.event,
     {
-        organaizerName:{
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+        organizerName:{
             type: DataTypes.STRING,
             trim: true,
             allowNull: false 
         },
-        dateEvent: {
+        dateId: {
             type: DataTypes.INTEGER,
-            references: references.date,
-            referencesKey: "id"
+            references: {
+                model: references.date,
+                key: "id"
+            },
+            allowNull: false 
         },
         time: {
-            type: DataTypes.TIME,
-            default: DataTypes.NOW
+            type: DataTypes.STRING,
+            allowNull: false 
         }
     }
 )

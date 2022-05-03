@@ -8,8 +8,7 @@ const PORT = process.env.PORT ?? 3000;
 
 app.use(express.json());
 app.use("/account", require("./routers/account"));
-app.use("/date", require("./routers/date"));
-// // app.use("/event", require("./routers/event"));
+app.use("/event", require("./routers/event"));
 app.use("/eventMember", require("./routers/eventMember"));
 
 

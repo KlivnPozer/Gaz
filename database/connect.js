@@ -10,21 +10,14 @@ if (!require("fs").existsSync(PATH_TO_DATABASE)) {
 const database = new Sequelize(
     {
         dialect: "sqlite",
-        storage: PATH_TO_DATABASE
+        storage: PATH_TO_DATABASE,
+        logging: false
     }
 );
 
-database.sync().then(
-    console.log("Database synced")
-);
-
-database.authenticate()
-.then(() => {
-    console.log("Database connected!");
-    require("../models");
-})
-.catch(e => {
-    console.log(e);
-});
+// Подключение моделей
+require("../models");
 
 global.database = database;
+
+module.exports = database.sync().then(console.log("Database synced"));

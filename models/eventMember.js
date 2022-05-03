@@ -17,8 +17,11 @@ module.exports = global.database.define(
         },
         eventId: {
             type: DataTypes.INTEGER,
-            references: references.event,
-            allowNull: false
+            references: {
+                model: references.event,
+                key: "id"
+            },
+            allowNull: false 
         }
     }
 );

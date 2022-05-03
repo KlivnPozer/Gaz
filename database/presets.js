@@ -1,38 +1,27 @@
-require("./connect");
-
+const { loadRelations } = require("../models/index");
 const bcrypt = require("bcrypt");
-const AccountModel = require("../models/account");
-const DateModel = require("../models/date");
-const EventMemberModel = require("../models/eventMember");
+
 const accountData = {
     login: "root",
     passwordHash: bcrypt.hashSync("rootroot",2),
     isRoot: true
 };
+
 const date = new Date();
 
-const event = {
-    name: "Скрынников Максим Алексеевич"
-};
-
 const process = async () => {
+    loadRelations();
 
-    if (!(await AccountModel.findOne({login: "root"}))) {
+    const DateModel = require("../models/date");
+    const AccountModel = require("../models/account");  
+
+    if (!(await AccountModel.findOne({where: {login: "root"}}))) {
         await AccountModel.create(accountData);
         console.log("Default root account added!");
     }
-    // if(!(await DateMoodel.findOne({day:"10"}))){
-    //     await DateMoodel.create(data);
-    //     console.log("data added");
-    // }
-    // if(!(await EventMemberModel.findOne({id:0}))){
-    //     await EventMemberModel.create(event);
-    //     console.log("member added");
-    // }
 
     const year = date.getFullYear();
-
-    if (!(await DateModel.findOne({year}))) {
+    if (!(await DateModel.findOne({where: {year}}))) {
         for (let monthIndex = 1; monthIndex <= 12; monthIndex++) {
             let daysLength = 28;
             switch (monthIndex) {
@@ -62,7 +51,7 @@ const process = async () => {
 }
 
 try {
-    process();
+    require("./connect").then(process());
 } catch (e) {
     console.log(e);
 }

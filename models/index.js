@@ -1,8 +1,23 @@
 module.exports = {
     references: {
         accounts: "accounts",
-        date: "date",
-        event: "event",
+        date: "dates",
+        event: "events",
         eventMembers: "eventMembers"
+    },
+    loadRelations: () => {
+        const DateModel = require("./date");
+        const EventModel = require("./event");
+        const EventMemberModel = require("./eventMember");
+
+        EventModel.belongsTo(DateModel, {
+            foreignKey: "dateId",
+            as: "date"
+        });
+
+        EventMemberModel.belongsTo(EventModel, {
+            foreignKey: "eventId",
+            as: "event"
+        })
     }
 }
