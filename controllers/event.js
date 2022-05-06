@@ -130,7 +130,7 @@ class Event{
         }
 
         let foundEventMembers;
-        if (!(foundEventMembers = await EventMemeberModel.findOne({where: {eventId: foundEvent.id}}))) {
+        if (!(foundEventMembers = await EventMemeberModel.findAll({where: {eventId: foundEvent.id}}))) {
             return res.status(404).json({message: "Участники мероприятия не найдены"}).end();
         }
 

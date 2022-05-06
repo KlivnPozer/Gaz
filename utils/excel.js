@@ -96,25 +96,22 @@ module.exports = {
                 key: "eventMembers"
             }
         ];
+        // Массив основных параметров
+        const arrayRow = [
+            `${data.date.day}.${data.date.month}.${data.date.year}`, 
+            data.time, 
+            data.organizerName
+        ];
+        // Добавление участников мероприятия
+        console.log(data);
+        for (let member of data.eventMembers) {
+            arrayRow.push(member.name);
+        }
         // Добавление основных параметров
         worksheet.addRow(
-            {
-                date: `${data.date.day}.${data.date.month}.${data.date.year}`, 
-                time: data.time, 
-                organizerName: data.organizerName,
-                eventMembers: data.eventMembers[0]
-            }
+            arrayRow
         );
-        // Добавление участников мероприятия
-        // for (let memberIndex in data.eventMembers) {
-        //     if (memberIndex < 1) continue;
-
-        //     worksheet.addRow(
-        //         {
-        //             eventMembers: data.eventMembers[memberIndex]
-        //         }
-        //     );
-        // }
+        
         // Сохранение получившейся таблицы
         try {
             await workbook.xlsx.writeFile(path);
