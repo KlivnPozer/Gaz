@@ -76,7 +76,8 @@ module.exports = {
         // Cоздание таблицы
         const workbook = new ExcelJS.Workbook();
         // Создание листа
-        const worksheet = new workbook.addWorksheet("Event");
+        const worksheet = workbook.addWorksheet("Event");
+        // Задание параметров столбцов
         worksheet.columns = [
             {
                 header: "Дата",
@@ -89,8 +90,38 @@ module.exports = {
             {
                 header: "ФИО организатора",
                 key: "organizerName"
+            },
+            {
+                header: "ФИО участников",
+                key: "eventMembers"
             }
-            
-        ]
+        ];
+        // Добавление основных параметров
+        worksheet.addRow(
+            {
+                date: `${data.date.day}.${data.date.month}.${data.date.year}`, 
+                time: data.time, 
+                organizerName: data.organizerName,
+                eventMembers: data.eventMembers[0]
+            }
+        );
+        // Добавление участников мероприятия
+        // for (let memberIndex in data.eventMembers) {
+        //     if (memberIndex < 1) continue;
+
+        //     worksheet.addRow(
+        //         {
+        //             eventMembers: data.eventMembers[memberIndex]
+        //         }
+        //     );
+        // }
+        // Сохранение получившейся таблицы
+        try {
+            await workbook.xlsx.writeFile(path);
+            return true;
+        } catch (e) {
+            console.log("Error converting table: " + e);
+            return false;
+        }
     }
 }

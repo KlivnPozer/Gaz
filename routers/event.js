@@ -22,4 +22,11 @@ router.post(
     ]
 )
 
+router.get(
+    "/exportTable",
+    [
+        EventController.exportTable
+    ]
+)
+
 module.exports = router;

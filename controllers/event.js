@@ -105,6 +105,43 @@ class Event{
 
         return res.status(200).json({eventIds, errors}).end();
     }
+
+    /**
+     * Экспорт указанного мероприятия
+     * в таблицу xlsx
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns 
+     */
+    async exportTable (req, res) {
+        const {
+            eventId
+        } = req.query;
+
+        let foundEvent;
+        if (!(foundEvent = await EventModel.findOne({where: {id: eventId}}))) {
+            return res.status(404).json({message: "Мероприятие не найдено"}).end();
+        }
+
+        let foundDate;
+        if (!(foundDate = await DateModel.findOne({where: {id: foundEvent.dateId}}))) {
+            return res.status(404).json({message: "Дата мероприятия не найдена"}).end();
+        }
+
+        let foundEventMembers;
+        if (!(foundEventMembers = await EventMemeberModel.findOne({where: {eventId: foundEvent.id}}))) {
+            return res.status(404).json({message: "Участники мероприятия не найдены"}).end();
+        }
+
+        foundEvent.date = foundDate;
+        foundEvent.eventMembers = foundEventMembers;
+
+        const pathConvertedEvent = `${require("os").tmpdir()}/${Date.now()}_converted.xlsx`;
+        await ExcelUtils.convertToExcel(foundEvent, pathConvertedEvent);
+
+        return res.sendFile(pathConvertedEvent);
+    }
 }
 
 module.exports = new Event();
