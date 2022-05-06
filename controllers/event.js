@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const ExcelUtils = require("../utils/excel");
 
 const DateModel = require("../models/date");
@@ -141,6 +142,97 @@ class Event{
         await ExcelUtils.convertToExcel(foundEvent, pathConvertedEvent);
 
         return res.sendFile(pathConvertedEvent);
+    }
+
+    /**
+     * Получить мероприятия указанного
+     * месяца
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     */
+    async getMonthEvents (req, res) {
+        const {
+            month,
+            year
+        } = req.query;
+
+        let foundDates;
+        if (!(foundDates = await DateModel.findAll({
+            where: {month, year}
+        }))) {
+            return res.status(404).json({message: "Месяц не найден"}).end();
+        }
+
+        const monthEvents = [];
+        for (let date of foundDates) {
+            let dateData = [
+                {
+                    time: "9:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "10:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "11:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "12:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "13:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "14:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "15:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "16:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                },
+                {
+                    time: "17:00",
+                    date: `${date.day}.${date.month}.${date.year}`,
+                    busy: false
+                }
+            ];
+
+            for (let time = 9; time < 18; time++) {
+                let foundEvent; 
+                if (!(foundEvent = await EventModel.findOne({where: {dateId: date.id, time: `${time}:00`}}))) {
+                    continue;
+                }
+
+                let timeIndex = time-9;
+                dateData[timeIndex] = Object.assign(dateData[timeIndex], {
+                    busy: true,
+                    organizerName: foundEvent.organizerName,
+                    eventMembers: await EventMemeberModel.findAll({where: {eventId: foundEvent.id}}) ?? [],
+                    eventId: foundEvent.id
+                });
+            }
+
+            monthEvents.push(dateData);
+        }
+
+        return res.status(200).json({monthEvents}).end();
     }
 }
 

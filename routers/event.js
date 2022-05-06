@@ -29,4 +29,11 @@ router.get(
     ]
 )
 
+router.get(
+    "/getMonthEvents",
+    [
+        EventController.getMonthEvents
+    ]
+)
+
 module.exports = router;
