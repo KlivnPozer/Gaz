@@ -42,6 +42,19 @@ class Account{
             expiresIn: responseExpiresIn,
         }).end();
     }
+
+    /**
+     * Получить информацию об аккаунте
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     */
+    async get (req, res) {
+        let account = req.account;
+        delete account.passwordHash;
+
+        return res.status(200).json({account}).end();
+    }   
 }
 
 module.exports = new Account();
