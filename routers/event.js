@@ -36,4 +36,11 @@ router.get(
     ]
 )
 
+router.post(
+    "/update",
+    [
+        EventController.update
+    ]
+)
+
 module.exports = router;
