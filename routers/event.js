@@ -7,7 +7,7 @@ const EventController = require("../controllers/event");
 
 router.post(
     "/create",
-    [
+    [   
         AuthMiddleware,
         EventController.create
     ]
