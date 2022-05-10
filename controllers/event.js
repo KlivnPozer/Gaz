@@ -41,7 +41,7 @@ class Event{
             return res.status(500).json({messages: memberErrors}).end();
         }
 
-        return res.status(500).json({
+        return res.status(200).json({
             eventId: createdEvent.id
         }).end();
     }
@@ -168,46 +168,55 @@ class Event{
         for (let date of foundDates) {
             let dateData = [
                 {
+                    dateId: date.id,
                     time: "9:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "10:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "11:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "12:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "13:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "14:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "15:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "16:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
                 },
                 {
+                    dateId: date.id,
                     time: "17:00",
                     date: `${date.day}.${date.month}.${date.year}`,
                     busy: false
@@ -275,6 +284,13 @@ class Event{
         let foundEvent;
         if (!(foundEvent = await EventModel.findOne({where: {id: eventId}}))) {
             return res.status(404).json({message: "Мероприятие не найдено"}).end();
+        }
+
+        let foundMembers = await EventMemeberModel.findAll({where: {eventId}});
+        if (foundMembers.length > 0) {
+            for (let member of foundMembers) {
+                await member.destroy();
+            }
         }
 
         if (!(await foundEvent.destroy())) {
