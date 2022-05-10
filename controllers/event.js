@@ -234,6 +234,31 @@ class Event{
 
         return res.status(200).json({monthEvents}).end();
     }
+
+    /**
+     * Обновить информацию о мероприятии
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns
+     */
+    async update (req, res) {
+        const { 
+            eventId,
+            organizerName 
+        } = req.body;
+
+        let foundEvent;
+        if (!(foundEvent = await EventModel.findOne({where: {id: eventId}}))) {
+            return res.status(404).json({message: "Мероприятие не найдено"}).end();
+        }
+
+        if (!(await foundEvent.update({organizerName}))) {
+            return res.status(500).json({message: "Неизвестная ошибка обновления мероприятия"}).end();
+        }
+
+        return res.status(200).json({message: "ok"}).end();
+    }
 }
 
 module.exports = new Event();
