@@ -259,6 +259,30 @@ class Event{
 
         return res.status(200).json({message: "ok"}).end();
     }
+
+    /**
+     * Удаление мероприятия
+     * 
+     * @param {object} req 
+     * @param {object} res 
+     * @returns 
+     */
+    async remove (req, res) {
+        const { 
+            eventId
+        } = req.query;
+
+        let foundEvent;
+        if (!(foundEvent = await EventModel.findOne({where: {id: eventId}}))) {
+            return res.status(404).json({message: "Мероприятие не найдено"}).end();
+        }
+
+        if (!(await foundEvent.destroy())) {
+            return res.status(500).json({message: "Неизвестная ошибка удаления из БД"}).end();
+        }
+
+        return res.status(200).json({message: "ok"}).end();
+    }
 }
 
 module.exports = new Event();

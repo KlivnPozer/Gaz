@@ -36,10 +36,19 @@ router.get(
     ]
 )
 
-router.post(
+router.put(
     "/update",
     [
+        AuthMiddleware,
         EventController.update
+    ]
+)
+
+router.delete(
+    "/remove",
+    [
+        AuthMiddleware,
+        EventController.remove
     ]
 )
 

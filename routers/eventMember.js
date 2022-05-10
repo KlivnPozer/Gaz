@@ -1,11 +1,14 @@
 const Router = require("express").Router;
 const router = Router();
 
+const AuthMiddleware = require("../middlewares/auth");
+
 const EvenMemberConroler = require("../controllers/eventMember")
 
 router.post(
     "/add",
     [
+        AuthMiddleware,
         EvenMemberConroler.add
     ]
 )
@@ -13,6 +16,7 @@ router.post(
 router.put(
     "/update",
     [
+        AuthMiddleware,
         EvenMemberConroler.update
     ]
 )
@@ -20,6 +24,7 @@ router.put(
 router.delete(
     "/remove",
     [
+        AuthMiddleware,
         EvenMemberConroler.remove
     ]
 )

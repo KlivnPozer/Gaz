@@ -84,7 +84,7 @@ class EventMember {
         }
 
         if (!(await foundEventMember.destroy())) {
-            return res.status(404).json({message: "Неизвестная ошибка удаления из БД"}).end();
+            return res.status(500).json({message: "Неизвестная ошибка удаления из БД"}).end();
         }
 
         return res.status(200).json().end();
