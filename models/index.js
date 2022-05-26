@@ -5,6 +5,12 @@ module.exports = {
         event: "events",
         eventMembers: "eventMembers"
     },
+    loadModels: () => {
+        require("./account");
+        require("./date");
+        require("./event");
+        require("./eventMember");
+    },
     loadRelations: () => {
         const DateModel = require("./date");
         const EventModel = require("./event");

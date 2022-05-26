@@ -1,3 +1,5 @@
+const connection = require("./connect");
+
 const { loadRelations } = require("../models/index");
 const bcrypt = require("bcrypt");
 
@@ -48,10 +50,17 @@ const process = async () => {
             }
         }
     }
+
+    console.log("Database synced");
 }
 
 try {
-    require("./connect").then(process());
+    // Подключение моделей
+    require("../models").loadModels();
+    // Синхронизация БД
+    connection.sync({force: true}).then(
+       process
+    )
 } catch (e) {
     console.log(e);
 }

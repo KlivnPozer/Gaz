@@ -1,7 +1,8 @@
+const database = require("../database/connect");
 const { references } = require("./index");
 const { DataTypes } = require("sequelize");
 
-module.exports = global.database.define(
+module.exports = database.define(
     references.accounts,
     {
         id: {

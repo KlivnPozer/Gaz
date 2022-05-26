@@ -29,7 +29,7 @@ class Account{
         const responseExpiresIn = Math.floor(Date.now()/1000) + expiresIn;
         const token = jwt.sign(
             {
-                accountId: foundAccount._id
+                accountId: foundAccount.id
             }, 
             process.env.JWT_SECRET_KEY,
             {

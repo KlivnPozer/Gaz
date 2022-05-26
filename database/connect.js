@@ -15,9 +15,4 @@ const database = new Sequelize(
     }
 );
 
-// Подключение моделей
-require("../models");
-
-global.database = database;
-
-module.exports = database.sync().then(console.log("Database synced"));
+module.exports = database;
