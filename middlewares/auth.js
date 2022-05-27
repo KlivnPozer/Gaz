@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
     // Получение аккаунта
     let foundAccount;
     try {
-        if (!(foundAccount = await AccountModel.findOne(decodedToken.accountId))) {
+        if (!(foundAccount = await AccountModel.findOne({where: {id: decodedToken.accountId}}))) {
             return res.status(403).json({message: "Ваш аккаунт был заблокирован или удалён"}).end();
         }
     } catch (e) {
