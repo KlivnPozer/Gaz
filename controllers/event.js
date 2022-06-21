@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const ExcelUtils = require("../utils/excel");
+const WordUtils = require("../utils/word");
 
 const DateModel = require("../models/date");
 const EventModel = require("../models/event");
@@ -54,7 +55,7 @@ class Event{
      * @param {object} res 
      */
     async importTable (req, res) {
-        const parsedTable = await ExcelUtils.parseFromExcel(req.file.buffer);
+        const parsedTable = await WordUtils.parse(req.file.buffer);
 
         let errors = [];
         let eventIds = [];
@@ -70,8 +71,7 @@ class Event{
                 foundDate = await DateModel.create({year, month, day});
             }
 
-            const parsedTime = new Date(event.time);
-            const time = `${parsedTime.getHours()-4}:00`
+            const time = event.time;
             const dateId = foundDate.id;
             if (await EventModel.findOne({where: {time, dateId}})) {
                 errors.push(`Мероприятие на ${event.full_date} ${event.time} уже существует`);
